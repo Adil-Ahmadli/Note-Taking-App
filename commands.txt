@@ -1,0 +1,13 @@
+virtual environment specific commands:
+    create venv:
+        python3 -m venv <name>
+    activate venv:
+        source <name>/bin/activate
+
+django specific commands:
+    create project:
+        django-admin startproject <name> .
+    start project:
+        python3 manage.py runserver   // django-admin runserver
+    create app:
+        python3 -m django startapp <name>
