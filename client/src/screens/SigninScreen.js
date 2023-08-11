@@ -61,22 +61,22 @@ const Signin = () => {
                         <div className="col-title">
                             Log In
                         </div>
-                        <br />
                         <Form onSubmit={handleSubmit}>
-                            <Form.Group id="email">
+                            <Form.Group id="email" style={{ marginBottom: '16px' }}>
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control type="email" ref={emailRef}  placeholder="Enter email" required />
                             </Form.Group>
-
                             <Form.Group id="password">
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control type="password" ref={passwordRef} placeholder="Password" required />
                             </Form.Group>
-                            <div className="auth-form-bottom">
+                            <div className="auth-form-bottom-group">
+                                <a href="/register">Already have an account?</a>
                                 <Button style={{ paddingLeft: '30px', paddingRight: '35px' }} disabled={loading} variant="primary" type="submit">
                                     Log In
                                 </Button>
                             </div>
+                            
                         </Form>
                         </div>
                     </Card.Body>

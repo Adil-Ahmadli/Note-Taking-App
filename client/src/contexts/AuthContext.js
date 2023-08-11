@@ -24,7 +24,7 @@ const clearErrorMessage = dispatch => () => {
 
 const signin = dispatch => async ({ email, password }) => {
     try {
-        const response = await notesApi.post('/login', { email, password })
+        const response = await notesApi.post('/api/login', { email, password })
         dispatch({ type: 'auth', payload: response.date.token})
     } catch (e) {
         dispatch({ type: 'add_error_message', payload: 'Something went wrong here'})

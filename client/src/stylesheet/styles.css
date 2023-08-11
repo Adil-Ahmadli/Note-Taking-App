@@ -74,7 +74,14 @@ html, body {
 .auth-form-bottom {
     display: flex;
     align-items:center;
-    justify-content: right;
+    margin-top: 25px;
+}
+
+.auth-form-bottom-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 25px;
 }
 
