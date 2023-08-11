@@ -1,47 +1,60 @@
-import React, { useContext, useState, useEffect } from 'react';
-import auth from '../apis/firebase'
+import createDataContext from './createDataContext'
+import teleApi from '../apis/teleapi'
 
-const AuthContext = React.createContext();
-
-export function useAuth() {
-    return useContext(AuthContext)
-
+const authReducer = (state, action) => {
+    switch (action.type) {
+        case 'auth':
+            return { ...state, errorMessage: '', token: action.payload, isLogged: true}
+        case 'signout':
+            return { ...state, token: '', isLogged: false}
+        case 'fetch_data':
+            return { ...state, data: action.payload}
+        case 'clear_error_message':
+            return { ...state, errorMessage: '', modalVisible: false}
+        case 'add_error_message':
+            return { ...state, errorMessage: action.payload}
+        default:
+            return state
+    }
 }
 
-export function AuthProvider({ children }) {
-    const [currentUser, setCurrentUser] = useState();
-    const [loading, setLoading] = useState(true);
+const clearErrorMessage = dispatch => () => {
+    dispatch({ type: 'clear_error_message'})
+}
 
-    function signup(email, password) {
-        return auth.createUserWithEmailAndPassword(email, password);
+const signin = dispatch => async ({ email, password }) => {
+    try {
+        const response = await teleApi.post('/users/login', { email, password })
+        dispatch({ type: 'auth', payload: response.date.token})
+    } catch (e) {
+        dispatch({ type: 'add_error_message', payload: 'Something went wrong here'})
     }
+}
 
-    function signin(email, password) {
-        return auth.signInWithEmailAndPassword(email, password);
-    }
-
-    function signout() {
-        return auth.signOut();
-    }
-
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
-            setCurrentUser(user);
-            setLoading(false);
+const fetchData = dispatch => async ({ token }) => {
+    try {
+        const response = await teleApi.get('/users/me', {}, { 
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         })
-        return unsubscribe
-    }, []);
+        dispatch({ type: 'fetch_data', payload: response.data})
+    } catch (e) {
+        dispatch({ type: 'add_error_message', payload: 'Cannot fetch, error'})
+    }
+}
 
-    const value = {
-        currentUser,
-        signup,
-        signin,
-        signout
-    };
+const signout = dispatch => async () => {
+    dispatch({ type: 'signout' })
+}
 
-    return (
-        <AuthContext.Provider value={value}>
-            {!loading && children }
-        </AuthContext.Provider>
-    );
-};
+export const { Provider, Context } = createDataContext(
+    authReducer,
+    { signin, signout, clearErrorMessage, fetchData },
+    { 
+        token: null,
+        errorMessage: '', 
+        isLogged: false,
+        date: null
+    }
+)
