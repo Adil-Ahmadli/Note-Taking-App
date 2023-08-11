@@ -3,7 +3,7 @@ import HomeScreen from './screens/HomeScreen';
 import SigninScreen from './screens/SigninScreen';
 import DashScreen from './screens/DashScreen';
 
-import { AuthProvider } from './contexts/AuthContext';
+import { Provider as AuthProvider } from './contexts/AuthContext';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 
 const App = () => {
