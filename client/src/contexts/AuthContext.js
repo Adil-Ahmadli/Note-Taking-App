@@ -1,5 +1,5 @@
 import createDataContext from './createDataContext'
-import teleApi from '../apis/teleapi'
+import notesApi from '../apis/notesapi'
 
 const authReducer = (state, action) => {
     switch (action.type) {
@@ -24,7 +24,7 @@ const clearErrorMessage = dispatch => () => {
 
 const signin = dispatch => async ({ email, password }) => {
     try {
-        const response = await teleApi.post('/users/login', { email, password })
+        const response = await notesApi.post('/users/login', { email, password })
         dispatch({ type: 'auth', payload: response.date.token})
     } catch (e) {
         dispatch({ type: 'add_error_message', payload: 'Something went wrong here'})
@@ -33,7 +33,7 @@ const signin = dispatch => async ({ email, password }) => {
 
 const fetchData = dispatch => async ({ token }) => {
     try {
-        const response = await teleApi.get('/users/me', {}, { 
+        const response = await notesApi.get('/users/me', {}, { 
             headers: {
                 'Authorization': `Bearer ${token}`
             }
