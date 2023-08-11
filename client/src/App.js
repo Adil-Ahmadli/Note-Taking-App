@@ -1,7 +1,14 @@
 import React from 'react';
+import HomeScreen from './screens/HomeScreen';
+import SigninScreen from './screens/SigninScreen';
+import DashScreen from './screens/DashScreen';
+
+import { AuthProvider } from './contexts/AuthContext';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 
 const App = () => {
-    <div className="root-container">
+    return (
+        <div className="root-container">
             <BrowserRouter>
             <AuthProvider>
                     <Routes>
@@ -19,6 +26,7 @@ const App = () => {
             </AuthProvider>
             </BrowserRouter>
         </div>
+    );
 }
 
 export default App;
