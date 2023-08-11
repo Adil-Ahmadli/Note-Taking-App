@@ -1,7 +1,9 @@
+# Backend files to ignore
+
 backend/backend-virtual-environment
 command.txt
+backend/note_taking_app/__pycache__/
 
-django/
 
 # Client dependencies
 client/node_modules
